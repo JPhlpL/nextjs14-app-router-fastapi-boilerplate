@@ -1,39 +1,40 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    setError('')
+    event.preventDefault();
+    setError("");
 
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        router.push('/menu')
+        router.push("/menu");
       } else {
-        setError(data.error || 'An error occurred during login')
+        setError(data.error || "An error occurred during login");
       }
     } catch (error) {
-      console.error('JWT verification error:', error);
+      console.error("JWT verification error:", error);
     }
-  }
+  };
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
@@ -41,30 +42,39 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="you@example.com" 
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required 
+            required
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input 
-            id="password" 
-            type="password" 
+          <Input
+            id="password"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required 
+            required
           />
         </div>
         {error && <p className="text-red-500">{error}</p>}
-        <Button type="submit" className="w-full">
-          Sign in
-        </Button>
+        <div className="space-y-1">
+          <Button type="submit" className="w-full ">
+            Sign in
+          </Button>
+        </div>
+        <div className="space-y-1">
+          <Link href="/register">
+            <Button type="button" className="w-full">
+              Sign-up
+            </Button>
+          </Link>
+        </div>
       </form>
     </div>
-  )
+  );
 }
