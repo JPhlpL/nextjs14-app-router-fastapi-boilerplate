@@ -33,4 +33,3 @@ TO-DO:
 DONE:
 1.
 
-pip freeze > requirements.txt
