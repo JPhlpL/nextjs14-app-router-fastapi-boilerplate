@@ -2,9 +2,10 @@ from sqlalchemy.orm import Session
 from src.models.models import User
 from src.wrappers.dbSessionWrapper import with_db_session
 from sqlalchemy import select
-import logging
+from src.utils.logger import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger()
+
 
 class UserRepository:
     @with_db_session

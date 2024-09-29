@@ -42,3 +42,5 @@ next-env.d.ts
 # FastPI Venv
 python-api/venv/
 __pycache__/
+*.log 
+# All .log file will be ignore
