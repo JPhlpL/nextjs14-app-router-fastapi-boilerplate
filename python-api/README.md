@@ -24,12 +24,11 @@ pip freeze > requirements.txt
 - KANBAN - 
 
 TO-DO:
-1. Add Logger, and also can store internally (like json, text or .log)
 2. CRUD Operation
 3. Display list of users
 4. Create User Role Management
 5. Add Bcrpyt for Password
 
 DONE:
-1.
+1. Add Logger, and also can store internally (like json, text or .log)
 
