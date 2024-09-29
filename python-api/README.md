@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 To run, go to cd python-api then run:
 ``
-uvicorn main:app --reload --port=5000 (if you want to have port number)
+uvicorn src.main:app --reload --port=5000 (if you want to have port number)
 ``
 
 To export libraries
