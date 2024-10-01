@@ -36,6 +36,17 @@ class UserService:
         except Exception as e:
             logger.error(f"Error in UserService.get_user: {e}")
             raise Exception(f"Error in UserService.get_user: {e}")
+        
+    def get_all_users(self) -> list[UserSchema]:
+        try:
+            logger.info(f"Getting All users")
+            db_user = self.user_repository.get_all_users()
+            if not db_user:
+                logger.warning(f"No users found")
+                raise HTTPException(status_code=404, detail="Users not found")
+            return db_user
+        except HTTPException as e:
+            raise e
 
     def update_user(self, user_id: UUID, user: UserSchema) -> UserSchema:
         try:

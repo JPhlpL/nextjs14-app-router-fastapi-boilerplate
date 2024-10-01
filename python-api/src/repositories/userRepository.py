@@ -4,6 +4,7 @@ from src.wrappers.dbSessionWrapper import with_db_session
 from sqlalchemy import select
 from src.utils.logger import setup_logger
 from uuid import UUID
+import bcrypt
 from datetime import datetime, timezone
 logger = setup_logger()
 
@@ -27,13 +28,36 @@ class UserRepository:
             raise Exception(f"Error in UserRepository.get_user: {e}")
         
     @with_db_session
+    def get_all_users(self, scoped_db: Session) -> list[User]:
+        try:
+            logger.info(f"Fetching all users")
+            db_user = scoped_db.query(User).all()
+
+            if not db_user:
+              return None
+          
+            logger.info(f"No users found")
+            return db_user
+        
+        except Exception as e:
+            logger.error(f"Error getting user all users: {e}")
+            raise Exception(f"Error in UserRepository.get_all_users: {e}")
+        
+    @with_db_session
     def create_user(self, user: User, scoped_db: Session) -> User:
         try:
             logger.info(f"Creating user: {user.username}")
+            
+            # Bcrypting Password
+            user_password = user.password
+            bytes = user_password.encode('utf-8') 
+            salt = bcrypt.gensalt() 
+            hash = bcrypt.hashpw(bytes, salt) 
+            
             db_user = User(
                 email=user.email,
                 username=user.username,
-                password=user.password,
+                password=hash,
                 firstName=user.firstName,
                 lastName=user.lastName
             )
@@ -74,7 +98,7 @@ class UserRepository:
         except Exception as e:
             logger.error(f"Error updating user in repository: {e}")
             scoped_db.rollback()
-            raise
+            raise Exception(f"Error in UserRepository.update_user: {e}")
         
     @with_db_session
     def delete_user(self, user_id: UUID, scoped_db: Session) -> bool:

@@ -34,14 +34,21 @@ async def update_user_endpoint(user_id: UUID, user: UserSchema):
         raise HTTPException(status_code=400, detail=str(e))
     
 @router.get("/get/{user_id}", response_model=UserSchema)
-async def get_user(user_id: UUID, user_service: UserService = Depends()):
+async def get_user_endpoint(user_id: UUID, user_service: UserService = Depends()):
     try:
         return user_service.get_user(user_id)
     except HTTPException as e:
         raise e
+    
+@router.get("/get-all-users/", response_model=list[UserSchema])
+async def get_all_users_endpoint(user_service: UserService = Depends()):
+    try:
+        return user_service.get_all_users()
+    except HTTPException as e:
+        raise e
 
 @router.delete("/delete/{user_id}")
-async def delete_user(user_id: UUID, user_service: UserService = Depends())  -> JSONResponse:
+async def delete_user_endpoint(user_id: UUID, user_service: UserService = Depends())  -> JSONResponse:
     try:
         result = user_service.delete_user(user_id)
         return JSONResponse({"status": result}) 
