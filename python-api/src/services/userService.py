@@ -45,4 +45,13 @@ class UserService:
         except Exception as e:
             logger.error(f"Error in UserService.update_user: {e}")
             raise Exception(f"Error in UserService.update_user: {e}")
+        
+    def delete_user(self, user_id: UUID) -> bool:
+        try:
+            logger.info(f"Deleting user with user_id: {user_id}")
+            db_user = self.user_repository.delete_user(user_id)
+            return db_user
+        except Exception as e:
+            logger.error(f"Error in UserService.update_user: {e}")
+            raise Exception(f"Error in UserService.update_user: {e}")
     # ====================== Database Call ==================================

@@ -75,3 +75,24 @@ class UserRepository:
             logger.error(f"Error updating user in repository: {e}")
             scoped_db.rollback()
             raise
+        
+    @with_db_session
+    def delete_user(self, user_id: UUID, scoped_db: Session) -> bool:
+        try:
+            logger.info(f"Deleting user with ID: {user_id}")
+            
+            query = (
+               scoped_db.query(User).filter(User.id == str(user_id)).first()
+            )
+            if query:
+                scoped_db.delete(query)
+                scoped_db.commit()
+                logger.info(f"Deleted user with ID: {user_id}")
+                return True
+            
+            logger.info(f"No user with ID: {user_id} found")
+            return False
+            
+        except Exception as e:
+            logger.error(f"Error deleting user with ID {user_id}: {e}")
+            raise Exception(f"Error in UserRepository.delete_user: {e}")
