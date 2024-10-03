@@ -3,10 +3,19 @@ from fastapi.responses import JSONResponse
 from src.services.userService import UserService
 from src.schemas.schemas import User as UserSchema
 from src.utils.logger import setup_logger
+from src.utils.dependencies import valid_auth_token
+# from src.middleware.logging import APIRoute
 import requests
 from uuid import UUID
 
-router = APIRouter(prefix="/user", tags=["users"])
+router = APIRouter(
+    prefix="/user", 
+    tags=["users"],
+    responses={404: {"description": "Not found"}},
+    dependencies=[
+         Depends(valid_auth_token)
+    ]
+)
 logger = setup_logger() 
 
 @router.post("/add/", response_model=UserSchema)

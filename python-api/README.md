@@ -23,13 +23,14 @@ pip freeze > requirements.txt
 - KANBAN -
 
 **TO-DO:**
-1. Add Bcrpyt for Password
-2. Add Authorization Key
-3. Create User Role Management
+1. Integrate the registration from the nextjs using fetchapi to fastaapi
+2. Create User Role Management
 
 DONE:
 
-1. Add Logger, and also can store internally (like json, text or .log)
-2. CRUD Operation
-3. Display list of users
+1. Add Logger, and also can store internally using log file
+2. Add Authorization Key
+3. Add Bcrpyt for Password
+4. CRUD Operation
+5. Display list of users
 
