@@ -44,3 +44,4 @@ python-api/venv/
 __pycache__/
 *.log 
 # All .log file will be ignore
+.env.example
