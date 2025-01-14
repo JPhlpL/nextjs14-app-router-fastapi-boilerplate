@@ -1,8 +1,10 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
+from uuid import UUID
 
 class User(BaseModel):
+    #id: UUID
     email: str
     username: str
     password: str
